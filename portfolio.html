@@ -1,0 +1,42 @@
+---
+layout: base
+---
+<style type="text/css">
+.blog-cover h3 {font-weight: normal;}
+</style>
+<div class="container">
+	<section class="index">
+		<h3 class="text-center" style="margin-top:1.5em; margin-bottom:1.5em; font-weight:normal;">A Glimpse Of Our Project And Services</h3>
+	</section>
+	<hr>
+</div>
+
+<div class="container" style="margin-top:3em;">
+	<div class="row do">
+		<div class="col-md-6">
+			<div class="blog-cover blog-cover-shadow" style="background-image:url(/images/{{ site.to.ap-results }});">
+				<section>
+        			<div class="container">
+            			<h3>Apollo</h3><br>
+            			<form action="{{ site.to.apollo-link }}">
+    						<input type="submit" value="View Project" class="btn btn-outline-white">
+						</form>
+        			</div>
+    			</section>
+			 </div>
+		</div>
+		<div class="col-md-6">
+			<div class="blog-cover blog-cover-shadow" style="background-image:url(/images/{{ site.to.br-one }});">
+				<section>
+        			<div class="container">
+            			<h3>Birth Registration</h3><br>
+            			<form action="{{ site.to.br-link }}">
+    						<input type="submit" value="View Project" class="btn btn-outline-white">
+						</form>
+        			</div>
+    			</section>
+			 </div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>

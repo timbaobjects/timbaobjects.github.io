@@ -1,0 +1,423 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <link>http://timbaobjects.com</link>
+    <atom:link href="http://timbaobjects.com/feed.xml" rel="self" type="application/rss+xml" />
+    <description></description>
+    <language>en-us</language>
+    <pubDate>Wed, 24 Dec 2014 15:37:52 +0000</pubDate>
+    <lastBuildDate>Wed, 24 Dec 2014 15:37:52 +0000</lastBuildDate>
+
+    
+    
+    <item>
+      <title>Faster Data Input using Form Navigation</title>
+      <link>http://timbaobjects.com/software%20development/2012/02/25/faster-data-input-using-form-navigation/</link>
+      <pubDate>Sat, 25 Feb 2012 20:30:32 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/software%20development/2012/02/25/faster-data-input-using-form-navigation</guid>
+      <description>&lt;p&gt;&lt;a href=&quot;http://www.timbaobjects.com/wp-content/uploads/2012/02/psc_checklist_form.png&quot;&gt;&lt;img src=&quot;http://www.timbaobjects.com/wp-content/uploads/2012/02/psc_checklist_form-680x389.png&quot; alt=&quot;Project SwiftCount Checklist Entry Form&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Data entry is at the heart of the operations at &lt;a href=&quot;http://www.pscnigeria.org/&quot;&gt;Project SwiftCount&lt;/a&gt;. Our data clerks have to fill forms like the one in the screenshot above over and over again. In studying how they accomplish this task, we noticed a certain activity that takes a lot of time - leaving the keyboard to use the mouse.&lt;/p&gt;
+
+&lt;p&gt;Every time a data clerk wants to navigate from one input field to the next, they have to reach out to the mouse and click on the next field. The really smart ones had figured out the tab key and use that to move from one field to the next. You’ll agree with me that if you have to fill in fifty of those input fields, that’s a lot of work.&lt;/p&gt;
+
+&lt;p&gt;In order to help, we worked on a jQuery snippet that allows the use of keys on the keyboard to navigate from one field to the next. So all the data clerk needs to do is either press the “n” key on the keyboard to navigate to the next input field or “p” to navigate to the previous. This works for us since numerals are the only valid inputs in each of these text boxes so trapping the “n” and “p” keys to perform the navigation suffices.&lt;/p&gt;
+
+&lt;p&gt;We’ve created &lt;a href=&quot;https://gist.github.com/1910209&quot;&gt;this snippet&lt;/a&gt; demonstrating how it was done.&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Two are better than one when it comes to servers</title>
+      <link>http://timbaobjects.com/software%20development/2012/02/21/two-are-better-than-one-when-it-comes-to-servers/</link>
+      <pubDate>Tue, 21 Feb 2012 18:41:49 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/software%20development/2012/02/21/two-are-better-than-one-when-it-comes-to-servers</guid>
+      <description>&lt;p&gt;Two (and probably more) are better than one when it comes to deploying servers for a web application. When we deploy our applications, we generally like to separate the database server from the application server. If we were deploying a PHP web application for instance, the web server (which also doubles as the application server in the simplest cases) will be deployed separately from the MySQL database server. That is going to cost more in terms of hardware resources but we’ve found out that it not only improves the application performance but it also increases the application reliability. At TimbaObjects, we obsess over the visual appeal, speed, data integrity and reliability of our applications and so our approach to building such applications generally means we separating data processing from data storage.&lt;/p&gt;
+
+&lt;p&gt;In early hours of this morning, one of our application servers which is being used to store, manage and process data for one of our clients went down. Our client is an accredited elections observation group and they recruit and train their election observers to fill out and send answers to an elections checklist (using structured text messages) to a shortcode which is then routed to an application we built that parses, validates and stores the data in this structured text message. It then sends out a response as a reply to the sender.&lt;/p&gt;
+
+&lt;p&gt;Our connectivity with the telecom operators is via an &lt;a href=&quot;http://en.wikipedia.org/wiki/SMPP&quot;&gt;SMPP&lt;/a&gt; link with &lt;a href=&quot;http://www.3wc4life.net/&quot;&gt;our content aggregators&lt;/a&gt; and that’s a good thing because if our server goes down for any reason, messages bound for our shortcode get aggregated until we re-establish the connection. This is about the second time we’ve had this problem in the close-to-one-year period this application has been live. Further investigations into the crash revealed that we ran out of memory on the box and while the operating system was attempting to salvage more memory by killing tasks, it seg-faulted. Unfortunately, our watchdog is unable to detect this condition and reboot the server so a reboot had to be done manually. This was an occurrence only happening on the application server; the database server has been largely unscathed - we have an uptime of over 303 days on the database server (as at the writing of this post).&lt;/p&gt;
+
+&lt;p&gt;Our deployment uses an Apache server with &lt;a href=&quot;http://code.google.com/p/modwsgi/&quot;&gt;mod_wsgi&lt;/a&gt; to serve the application and preforks 10 processes to serve requests. In order to provide access to previous elections data, we copy over this configuration for every election. With a current deployment covering five elections schedules, we have over 50 apache processes. With a server deployed with only 768MB of RAM, that’s a lot of memory we’re talking about here. The machine on which our web server is deployed also doubles as the SMS processing server. So we have an additional &lt;a href=&quot;http://kannel.org/&quot;&gt;Kannel&lt;/a&gt; bearerbox and smsbox processes routing messages over HTTP to a node.js HTTP proxy server we built to handle HTTP requests on behalf of &lt;a href=&quot;http://www.rapidsms.org/&quot;&gt;RapidSMS&lt;/a&gt; (which our application is built on). Add all this processes together and you have a box that’s about to go belly up.&lt;/p&gt;
+
+&lt;p&gt;We solved the problem by reducing the number of processes apache forks to handle requests for the archived applications since those applications don’t get used that much. From about 59 apache processes, it went down to 25. We’re currently using 56% of available RAM now to serve the applications and no swap yet. With a swap size of only 256MB, if we had something much bigger, we probably wouldn’t have run out of memory.&lt;/p&gt;
+
+&lt;p&gt;Of course we could have just used one server with a lot of RAM to serve both database and application servers, however, a lot of things can go wrong and the fewer applications you have running on a server, the better for its stability. You simply don’t want to have a single point of failure in your application architecture.&lt;/p&gt;
+
+&lt;p&gt;Next time, we’re considering separating the SMS processing application from the application server so in the event that the application server goes down, text messages will continue being processed.&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Changing the future</title>
+      <link>http://timbaobjects.com/general/2012/01/20/changing-the-future/</link>
+      <pubDate>Fri, 20 Jan 2012 09:41:33 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/general/2012/01/20/changing-the-future</guid>
+      <description>&lt;p&gt;You’ve probably seen a movie or two about someone having the power to predict the future or in some cases see into the future. It’s all too likely that if you were able to see into the future, you’ll change a thing or two - and then the future changes.&lt;/p&gt;
+
+&lt;p&gt;In the Jan. 2, 2012 edition of The New Yorker, there’s an IBM ad with the title: “Drivers now ‘see’ traffic jams before they happen” citing a case in which IBM helps Singaporean motorists see traffic congestions one hour before they happen.&lt;/p&gt;
+
+&lt;p&gt;This and many types of other prediction applications use tons of historic and realtime data to accomplish this feat. The utility of this application is undoubtedly undisputed (pardon the pun). If the removal of fuel subsidy doesn’t discourage people from driving their own cars and hence potentially reduce congestion in a city like Lagos, such an application will be very useful.&lt;/p&gt;
+
+&lt;p&gt;Someone might ask, if prediction algorithms are able to tell us there’ll be heavy traffic on 3rd Mainland bridge, then the suggestion might be to take the Ikorodu road route. However, that then causes a problem on Ikorodu road since every motorist will then want to take that route. Good question, but then the algorithm also uses realtime data and would put into consideration the fact that traffic is building up on Ikorodu road and hence make another prediction and hence a new suggestion. It’s like having a traffic warden who sees all the routes at once and can make better decisions as a result of this oversight.&lt;/p&gt;
+
+&lt;p&gt;Welcome to the new year.&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Freedom's new helpmeet</title>
+      <link>http://timbaobjects.com/general/2012/01/19/freedoms-new-helpmeet/</link>
+      <pubDate>Thu, 19 Jan 2012 18:20:01 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/general/2012/01/19/freedoms-new-helpmeet</guid>
+      <description>&lt;p&gt;When the &lt;a href=&quot;http://www.time.com/time/specials/packages/article/0,28804,2101745_2102132_2102373,00.html&quot;&gt;Time Person of the Year 2011&lt;/a&gt; award went to ‘the Protester’ I was not surprised. Despite the presence of other nominees like Steve Jobs (who needs no introduction) and &lt;a href=&quot;http://en.wikipedia.org/wiki/Elizabeth_Warren&quot;&gt;Elizabeth Warren&lt;/a&gt; (a US Senate candidate), I still was not surprised.&lt;/p&gt;
+
+&lt;p&gt;It began in Tunisia, where a 26-year-old street vendor named &lt;a href=&quot;http://www.time.com/time/magazine/article/0,9171,2044723,00.html&quot;&gt;Mohamed Bouazizi&lt;/a&gt; drenched himself in paint thinner and lit a match after harassment and seizure of his fruit scales by council officials. It is said to be the final straw that broke the provabial camel’s back and ignited a series of protests and revolutions that spread through out the Arab world and unto other countries across the globe. But I digress.&lt;/p&gt;
+
+&lt;p&gt;Instead of plugging in the headphones, entering an Internet-induced fugue state and quietly giving in to hopelessness, protesters used the Internet to find one another and take to the streets to insist on fairness and (in the Arab world) freedom. For instance in Tunisia,  a blogger recorded the protests with his BlackBerry, uploaded the video to Youtube, and it got half a million views in a day. Hours later, President Ben Ali flew to exile in Saudi Arabia. After just four weeks, they protesters had won.&lt;/p&gt;
+
+&lt;p&gt;The Egyptians had their own Mohamed Bouazizi: an underemployed middle-class 28-year-old named Khaled Said. Sometime in 2010, after apparently hacking a police officer’s cell phone and lifting a video of officers displaying drugs and stacks of cash, he was arrested and beaten to death. Wael Ghonim, then a 29-year-old Google executive, created a Facebook page called We Are All Khaled Said to memorialize him. It went viral! In January, Ghonim returned from Dubai to Egypt met online and then, face to face with other protesters and the rest is history.&lt;/p&gt;
+
+&lt;p&gt;In Madrid, Spain  Olmo Gálvez, 31, an Internet entrepreneur just back from three years working in China and new to politics helped set up social-media networks for the protest.&lt;/p&gt;
+
+&lt;p&gt;The Gaddafi led government saw that the Internet is a valuable wartime resource, like a critical bridge over which supplies can flow. As long as you can deny it to your enemy, you don’t blow it up — you keep it intact for your own use. And so they went for it just like Egypt did. After Gaddafi shut down all communications coming from the Libyan General Telecommunications Authority, rebels developed a new strategy that includes a new network that enabled them to communicate and access the Internet. They launched Free Libyana on the 2nd of April 2011. And by April 12th 2011, a span of ten days, Opposition said it had an amazing 725,000 subscribers. Again. the rest is history.&lt;/p&gt;
+
+&lt;p&gt;So, I was far from amazed when rumors began to spread, during the Occupy Nigeria protests, that BIS was going to be suspended by Telcos in the country. My timeline literarily caught fire! “Fools! have they never heard of Twitter?” “As long as there is internet, we will communicate” “We’ll use sms and phone calls” “Let the Telcos also pack up and leave!” just to mention a few of the reactions I saw. Someone actually ‘approached’ me on Twitter to ask if TimbaObjects could hack together something that would be sms based to ensure the Occupy Nigeria protests would be seen and heard by the whole world and keep communication amongst protesters alive. Guys had gotten smart!&lt;/p&gt;
+
+&lt;p&gt;The Internet is super important and has proven even more so being the main tool behind the social, political and economic revolution across the globe. So no matter if broadband access is a human right, protected as a mechanism for free speech or completely corrupted to serve the status quo, it’s also wise to have a backup plan.&lt;/p&gt;
+
+&lt;p&gt;When some future governments are backed into a corner by a popular uprising supported by Internet communication, they will probably reach the same conclusions that Libya and Egypt did: reestablish control over national communications at any cost, and pick up the pieces later. That’s why the Internet is too vital to be left in the hands of centralized authority, and it’s why you should press for more diverse Internet connectivity wherever you happen to live.&lt;/p&gt;
+
+&lt;p&gt;Freedom has wooed and won the Internet’s heart and she has brought along her smart kids: Social Networks. They do love their new daddy.&lt;/p&gt;
+
+&lt;p&gt;Long Live Freedom and it’s new Helpmeet!&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>NSE Data API usage report</title>
+      <link>http://timbaobjects.com/products/2011/07/27/nse-data-api-usage-report/</link>
+      <pubDate>Wed, 27 Jul 2011 08:59:27 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/products/2011/07/27/nse-data-api-usage-report</guid>
+      <description>&lt;p&gt;It’s been two weeks since we launched our Nigerian Stock Exchange data API. We decided to do some analytics on the API usage yesterday and to our amazement, we’ve received a total of &lt;strong&gt;665 hits&lt;/strong&gt; on our API since launch on July 13th, 2011. Certainly some of this requests don’t translate into valid requests. Here’s a breakdown:&lt;/p&gt;
+&lt;table border=&#39;1&#39; style=&#39;font-size:.8em; text-align:center;&#39;&gt;
+&lt;tr&gt;
+	&lt;th style=&#39;text-align:center&#39; width=&#39;100&#39;&gt;Response Type&lt;/th&gt;
+	&lt;th style=&#39;text-align:center&#39; width=&#39;100&#39;&gt;Response Code&lt;/th&gt;
+	&lt;th style=&#39;text-align:center&#39; width=&#39;100&#39;&gt;Hits&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;OK (Successful API requests)&lt;/td&gt;
+	&lt;td&gt;200&lt;/td&gt;
+	&lt;td&gt;410&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;OK (All successful requests)&lt;/td&gt;
+	&lt;td&gt;200&lt;/td&gt;
+	&lt;td&gt;439&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;Forbidden (Unauthenticated Requests)&lt;/td&gt;
+	&lt;td&gt;403&lt;/td&gt;
+	&lt;td&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;styleNot Found&lt;/td&gt;
+	&lt;td&gt;404&lt;/td&gt;
+	&lt;td&gt;182&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;&lt;figure&gt;
+	&lt;img align=&#39;alignnone&#39; src=&#39;http://www.timbaobjects.com/wp-content/uploads/2011/07/bar.png&#39; width=&#39;240&#39; /&gt;
+	&lt;figcaption style=&#39;font-size:11px; padding-bottom:2em; margin-left:2.8em;&#39;&gt;Breakdown of HTTP Request Types&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;The large number of &lt;em&gt;Not Found&lt;/em&gt; requests were generated by trojans making requests like /PhpMyAdmin and other such requests (they were probably looking for security loopholes).&lt;/p&gt;
+
+&lt;p&gt;Of the &lt;strong&gt;23 API tokens&lt;/strong&gt; that have been provisioned, we have a &lt;strong&gt;65% usage&lt;/strong&gt; on those keys. Here’s a distribution of the requests we’ve received from those keys:&lt;/p&gt;
+&lt;table border=&#39;1&#39; style=&#39;font-size:.8em; text-align:center;&#39;&gt;
+&lt;tr&gt;
+	&lt;th style=&#39;text-align:center&#39; width=&#39;100&#39;&gt;Request&lt;/th&gt;
+	&lt;th style=&#39;text-align:center&#39; width=&#39;100&#39;&gt;Users&lt;/th&gt;
+	&lt;th style=&#39;text-align:center&#39; width=&#39;100&#39;&gt;%&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;1&lt;/td&gt;
+	&lt;td&gt;4&lt;/td&gt;
+	&lt;td&gt;26%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;2&lt;/td&gt;
+	&lt;td&gt;4&lt;/td&gt;
+	&lt;td&gt;26%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;3&lt;/td&gt;
+	&lt;td&gt;1&lt;/td&gt;
+	&lt;td&gt;7%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;4&lt;/td&gt;
+	&lt;td&gt;2&lt;/td&gt;
+	&lt;td&gt;13%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;5&lt;/td&gt;
+	&lt;td&gt;2&lt;/td&gt;
+	&lt;td&gt;13%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;8&lt;/td&gt;
+	&lt;td&gt;1&lt;/td&gt;
+	&lt;td&gt;7%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;369&lt;/td&gt;
+	&lt;td&gt;1&lt;/td&gt;
+	&lt;td&gt;7%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;&lt;figure&gt;
+	&lt;img align=&#39;alignnone&#39; src=&#39;http://www.timbaobjects.com/wp-content/uploads/2011/07/dot.png&#39; width=&#39;257&#39; /&gt;
+	&lt;figcaption style=&#39;font-size:11px; padding-bottom:2em; margin-left:12em&#39;&gt;Requests Vs API Users&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;In order to make the points in the chart fit within a reasonable chart size, the topmost dot was reduced.&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>How to pitch to VCs</title>
+      <link>http://timbaobjects.com/products/2011/07/26/how-to-pitch-to-vcs/</link>
+      <pubDate>Tue, 26 Jul 2011 12:59:23 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/products/2011/07/26/how-to-pitch-to-vcs</guid>
+      <description>&lt;figure style=&#39;float:left;&#39;&gt;
+	&lt;img align=&#39;left&#39; src=&#39;http://www.timbaobjects.com/wp-content/uploads/2011/07/DSC00719-250x187.jpg&#39; style=&#39;margin-right:1em;&#39; width=&#39;250&#39; /&gt;
+	&lt;figcaption style=&#39;font-size:11px; padding-bottom:1em;&#39;&gt;Delegates at the Pitch Monday Event&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Yesterday at &lt;a href=&quot;http://pitchmonday.eventbrite.com/&quot;&gt;Pitch Monday&lt;/a&gt;, a number of startup founders in Nigeria had an opportunity to pitch their ideas at investors and get a chance to raise funding for their ideas. While most of the ideas that were pitched were notable, it was quite obvious that most of the founders weren’t prepared for their pitches or didn’t know how to.&lt;/p&gt;
+
+&lt;p&gt;There are numerous articles online on how to prepare for your pitch and so I’ll recommend reading as much on this subject as possible.&lt;/p&gt;
+
+&lt;p&gt;In this blog post, I’ll be sharing and expanding some of the tips &lt;a href=&quot;http://twitter.com/TomiDee&quot;&gt;Tomi Davies&lt;/a&gt; shared with the delegates on pitching their ideas at the tail end of the event.&lt;/p&gt;
+
+&lt;p&gt;Tomi Davies summarized by saying pitching an idea is all about telling a story and your story needs to contain certain key components for it to be effective.&lt;/p&gt;
+
+&lt;p&gt;He breaks it down into the following key components: Proposition, Organization, Economics and Technicalities (&lt;strong&gt;POET&lt;/strong&gt;).&lt;/p&gt;
+
+&lt;h3 id=&quot;proposition&quot;&gt;Proposition&lt;/h3&gt;
+
+&lt;p&gt;Your proposition has to do with you describing what your service is all about; what problem you are attempting to solve; what value you intend to create and for whom. Depending on how much time you have, you also want to talk about your suppliers, customers and how your product (or service) is different from the competition and your strategy for maintaining your competitive edge.&lt;/p&gt;
+
+&lt;h3 id=&quot;organization&quot;&gt;Organization&lt;/h3&gt;
+
+&lt;p&gt;In organization, you essentially describe your team. Who the members on your team are (or will be) and what roles they play (or will play). It does appear to me that investors favor startup teams of two or more founders - preferably a team that comprises of someone who’s good at product development and marketing (the business guy), the hacker (developer) and the aesthetics (interface) team members.&lt;/p&gt;
+
+&lt;h3 id=&quot;economics&quot;&gt;Economics&lt;/h3&gt;
+
+&lt;p&gt;So this is where a number of startup founders fumble. It’s important to show the investor the money. Most investors are not investing for philanthropy but for profit and if they cannot clearly see how your startup will make them money, you just wouldn’t get them interested enough to invest in your startup. The economics of your startup outlines your cost centers and expenditure (both operational and capital) and your revenue sources. You will do good to explain how you intend to &lt;em&gt;realistically&lt;/em&gt; make money in your startup and show how long an investor is likely to wait to recoup their investment and move on to profit from your startup. This is where you talk about things like the return on investment and your rate of return.&lt;/p&gt;
+
+&lt;h3 id=&quot;technicalities&quot;&gt;Technicalities&lt;/h3&gt;
+
+&lt;p&gt;This has to do with &lt;em&gt;how&lt;/em&gt; your startup is meant to work. Most startup founders start with this but as Tomi Davies mentioned yesterday, this should be the last thing you talk about. If you’re discussing your startup with other geeks, sure this can come first but not when you’re pitching to investors.&lt;/p&gt;
+
+&lt;p&gt;In conclusion, I’m really excited about the startup community in Nigeria and I’m looking forward to seeing startup founders grow their businesses into world-class companies.&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Your Titanic, My Titanic</title>
+      <link>http://timbaobjects.com/general/2011/07/26/your-titanic-my-titanic/</link>
+      <pubDate>Tue, 26 Jul 2011 11:03:03 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/general/2011/07/26/your-titanic-my-titanic</guid>
+      <description>&lt;p&gt;Am sure we’ve all seen the movie ‘Titanic’. And in the event you’ve been living in a crevice somewhere in the Himalayas, it a re-enactment of the fateful voyage of the world’s largest sea vessel of its time (Ask someone else for the romance in the story. I’ll suggest &lt;a href=&quot;http://www.facebook.com/profile.php?id=1139335180#!/profile.php?id=1139335180&quot;&gt;Joy&lt;/a&gt;. Well, the ship sank 4 days into its maiden voyage and went to the bottom of the Atlantic taking about 1,517 souls along. History. The 1997 movie was a blast and stayed on top if the box office grossing charts for 12 years only recently taken down by Avatar.&lt;/p&gt;
+
+&lt;p&gt;Lets talk numbers. If you hate maths, never mind, I’ll bring it down to you. It cost White Star Line $7.5 million to put the Titanic to sea in 1912. Yep, quite a sum back then. Guess how much the movie ‘Titanic’ grossed? About $1.84 billion. Yep! Billion with a  B. Let’s take that in for a moment. (&lt;em&gt;leans back and smiles with eyes closed&lt;/em&gt;)&lt;/p&gt;
+
+&lt;p&gt;Ah! Do i see a hand at the back of the class? Inflation you ask? Well, even after adjusting for inflation and bringing both figures to a chosen year, it’ll have cost $28.86 million to build the liner and the movie would have grossed $383.34 million! Yep! Now, class, a simple division yields 13.28 (to 2 s.f.). QED.&lt;/p&gt;
+
+&lt;p&gt;My point? The story of the failure of the ocean liner, Titanic, made about 13 times what it cost the owners to actually build it. White Star Line suffers a huge loss, James Cameron picks up the tale, underlines the romance with a bunch of good actors and with the 21st Century and other studios made a success out of a shipwreck.&lt;/p&gt;
+
+&lt;p&gt;The moral of the story?&lt;/p&gt;
+
+&lt;p&gt;Technology is meant to make life, in general, easier, worth the while and longer (in some cases). Many argue nothing new can be invented that only advancements can be made. It is only logical to try and solve the same old issues (even pre-1912) with cutting edge technology. Especially with Information and Communication Technology.&lt;/p&gt;
+
+&lt;p&gt;Technology drives commerce. According to the story line, no one saw the huge ocean liner sink in 1912, but with 1997’s technology, millions lined up to the Titanic sinking afresh! It’s time we looked at those age old ‘shipwrecks’ from a different angle, sprinkle in some innovation and find a way with today’s technology. That’s why we are here.&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Dance for Data</title>
+      <link>http://timbaobjects.com/general/2011/07/05/dance-for-data/</link>
+      <pubDate>Tue, 05 Jul 2011 08:22:08 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/general/2011/07/05/dance-for-data</guid>
+      <description>&lt;p&gt;I was to take a bike from the highway to the “Mast”. I’d been told that my brother-in-law-to-be’s apartment was in the block of flats directly across from a telecommunication mast. I was passing through Ibadan and it was getting rather late, so I decided to spend the night in my sister’s fiancee’s place and get back on the road at the crack of dawn.&lt;/p&gt;
+
+&lt;p&gt;After a 6 minute ride, I was there. Standing before the mast, I wondered how many such monuments to our developmental progress in the sphere of telecommunications were scattered over the federation. They had to be thousands and thousands of them. In my mind’s eye, I saw a technical executive’s office at NCC with the map of Nigeria stabbed in a thousand places indicating where masts stood.&lt;/p&gt;
+
+&lt;p&gt;It was however not the mast itself that caught my attention, it was the muffled sound from the sound-proof generator installed to power the site. There was a fence and a security guard whom I later learnt had bought a motorcycle from the proceeds he made billing the mobile phone users in the neighborhood for each hour their phones spent plugged into a power source at his security post. He always had light, they seldom did. Demand and supply. Economics 101.&lt;/p&gt;
+
+&lt;p&gt;The Telcos got their licenses in 2001 at a cost of about N31.9billon each. Add to that the cost of doing business, (e.g. having to pay the security dude at their mast who’s ‘selling’ their energy at a premium and keeping it for himself. Even with people like him on the payroll, there have been countless cases of theft and vandalism at such mast sites nationwide). Ok, yes, the costs are huge. But they dare not claim annual loses! Profits are still staggering, simply put. With EBITDA figures that sound like astronomical distances.&lt;/p&gt;
+
+&lt;p&gt;But it’s still a wonder that Indonesians pay about $7 for BIS monthly and we pay about $20. Data is still very expensive here and most folks I know with Maemos, Androids and iOSs dare not let their mobiles loose in the byte store. It’s a quick way to commit financial suicide. A few get data plans and these are still very expensive. A friend ran an N8000 data plan monthly on his Galaxy S. Sad much, I tell ya!&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.timbaobjects.com/?attachment_id=103&quot;&gt;&lt;img src=&quot;http://www.timbaobjects.com/wp-content/uploads/2011/07/gsmarena_002.jpg&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;a href=&quot;http://www.timbaobjects.com/?attachment_id=104&quot;&gt;&lt;img src=&quot;http://www.timbaobjects.com/wp-content/uploads/2011/07/gsmarena_N900.jpg&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;To whom shall we go for data on our smartphones? We have to dumb them down to make them affordable. switch off most Apps, increase the time lags between retrievals and other such barbaric stunts. I recall when I got my first smartphone (Bless it’s soul &lt;em&gt;wipes a tear&lt;/em&gt;), anytime folks were checking it out, I had to stand guard. Not because of privacy concerns but because, one innocent click on an App or widget and zzzaaaaaaap! my balance would read something thing like N0.09 in few seconds. Happened a few times.&lt;/p&gt;
+
+&lt;p&gt;The Red Indians had a dance ritual they performed when they needed the rains. I wonder if there’s a Nigerian dance ritual that would help bring us a torrent of data. My hope is that it’s as easy as &lt;em&gt;alanta.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Private beta announcement of NSE data service</title>
+      <link>http://timbaobjects.com/products/2011/07/04/private-beta-announcement-of-nse-data-service/</link>
+      <pubDate>Mon, 04 Jul 2011 00:00:00 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/products/2011/07/04/private-beta-announcement-of-nse-data-service</guid>
+      <description>&lt;p&gt;For well over a year now, we’ve been testing an API we developed at TimbaObjects for providing data on trades at the Nigerian Stock Exchange. A number of our clients already use this data in production for some of their applications and we’re repurposing this API for public use.&lt;/p&gt;
+
+&lt;p&gt;This data service is the first of a number of such data services that we intend to provide to developers who will in turn use this to create valuable applications. With this NSE data API, you get access to data on all stocks that were traded on the Nigerian Stock Exchange on a daily basis.&lt;/p&gt;
+
+&lt;p&gt;We’re yet to launch this on a private beta basis and we’re seeking feedback in the form of a survey on what kind of services or applications will be built using this API. This will give us a sense of the data requirements and help us provide more value to developers who are likely to use this service.&lt;/p&gt;
+
+&lt;p&gt;To gain access to this API on launch, please fill our survey and don’t forget to leave your contact information and we’ll sign you up when we launch.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://bit.ly/lxlPpo&quot;&gt;Survey link&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Score Brokers and the Laws of Historical Precedence</title>
+      <link>http://timbaobjects.com/general/2011/06/30/score-brokers-and-the-laws-of-historical-precedence/</link>
+      <pubDate>Thu, 30 Jun 2011 15:31:18 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/general/2011/06/30/score-brokers-and-the-laws-of-historical-precedence</guid>
+      <description>&lt;p&gt;“Where were you in 2008 when we flogged this same team 1-0 in the semi-finals?” Kunle yelled. I was on his side in this argument, but he was going into the past as he was fond of and this irked me on end. The guys on the other side of the divide in this soccer argument were going to start going into ‘the books’ too to pull out records, at that stage it would be over for me. Kunle would have to go it alone. Am sorry.&lt;/p&gt;
+
+&lt;p&gt;I am a soccer fan, a jersey donning-display picture-die hard fan of  Manchester United FC, reigning champs of the EPL (no apologies to all other EPL team fans, you all can stop reading now). I will defend my team at any soccer argument ‘tourney’, but please in the name of all you hold dear, do not ask me for historical precedences. I do not recall all the history neither do I believe those will count in the present. These &lt;em&gt;‘Score Brokers’&lt;/em&gt;actually recalled all the stuff and believed it mattered, even if it happened 30 years ago! They’ll tell you the likely outcome in figures! &lt;em&gt;Puleaseeeeee!&lt;/em&gt; Are you shitting me? Count me out.&lt;/p&gt;
+
+&lt;p&gt;Kunle is one hell of a Score Broker. His day job? A stock analyst and broker. He ran a website to service his clients and sent them SMS reports along side. But his passion was soccer. His team? My team! &lt;em&gt;winks&lt;/em&gt; he sides with the best. But before I get carried away, back to why I’m writing this. We sat and watched the match together, well, our team lost (don’t ask me for details! Hatters!), but as we took the long walk back home from the viewing center, I got thinking about all the historical precedence that had been discussed and how it really hadn’t favored us and alas! the match too had not. Did this thing really work?&lt;/p&gt;
+
+&lt;p&gt;Fans like Kunle could go as far back as the 1960s to site cases like lawyers! I suddenly asked Kunle “When was the NSE formed?” He looked at me strange, still wallowing in the defeat of our club side. I guess he wasn’t expecting such a question, a UEFA related question would have been welcomed. He did answer, “It was established in 1960, trading actually began in 1961. It was called the Lagos Stock Exchange at the time.” I left it at that.&lt;/p&gt;
+
+&lt;p&gt;A few days ago, I had the joy to call Kunle and ask him how he would feel if we could deliver to to him all the stock quotes of the NSE not only of the present and fairly recent, but also past quotes. Well, his reaction is best imagined. I almost dropped my phone. With such a database and the tools of his trade, trends would stand out like whores in a convent. Trends was what all the historical precedence was all about. Trends were the guide to forecasting and navigating the shifting weather and waters of Stock brokerage and analysis.&lt;/p&gt;
+
+&lt;p&gt;This is exciting and I like the vibes we are getting from the experts in that field. Our team at TO? We are ready to play. Do I hear someone say mobile? Gosh! You folks never have enough. Heheheheheh!&lt;/p&gt;
+
+&lt;p&gt;From my desk this Thursday evening.&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Rat bytes!</title>
+      <link>http://timbaobjects.com/general/2011/06/30/rat-bytes/</link>
+      <pubDate>Thu, 30 Jun 2011 08:00:33 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/general/2011/06/30/rat-bytes</guid>
+      <description>&lt;p&gt;“Calm down, madam, it’s just a &lt;em&gt;rat bite&lt;/em&gt;.” My doctor friend had told the bewildered and totally shaken professor who’d been rushed in the ER on his dreadful night duty.&lt;/p&gt;
+
+&lt;p&gt;The elderly lady had dozed off in front of the TV after eating leaving her hands unwashed. Apparently, a bite had jolted her awake and the first thing that came to her mind was that she’d been bitten by a &lt;em&gt;venomous snake&lt;/em&gt;!&lt;/p&gt;
+
+&lt;p&gt;Of course she and her folks thought my friend was totally bunkers to have even thought it was a rat! A bladdy rodent?! “Young man you must be an incompetent blah, blah, blah…!” her husband screamed. Threatening to report him to the “high and mightys” and ensure he was relieved of his job.&lt;/p&gt;
+
+&lt;p&gt;The woman was even having symptoms of a snake bite - vision problems, speaking and breathing trouble, and numbness! Well, in the end, my Doctor friend was right and they all (old and wise as they were) were dead wrong. The symptoms were somatization, simple hysteria. Funny, eh? I didn’t think so.&lt;/p&gt;
+
+&lt;p&gt;“Jus’ ‘cos am young, wear jeans an’ a T-shirt and drive fast, they think i don’t know my job.” He told me. It’s just a fact of life that the young are thought to be unserious, directionless and not worth the bother. (That’s a blog for another day though). But while he related his ordeal, he’d just described me and the rest of my colleagues. Young-gum chewing-jean and T-shirt wearing-back pack carrying clans who called themselves Developers, Designers, UX people, Network experts, whatever.&lt;/p&gt;
+
+&lt;p&gt;Once you said to anyone “Am into IT.” Be ready for one of two reactions:&lt;/p&gt;
+
+&lt;p&gt;(A) They start thinking “yep, sonny, excuse yourself for all the hours you spend fiddling on your computer and the internet at home while honest hard working people are either at work or asleep.” Or, my favorite,&lt;/p&gt;
+
+&lt;p&gt;(B) They  go, in their minds, “hmmmm, he’s making a killing robbing some organization(s) blind and keeping them in their ignorance of simple things and tools. Scammer! Legal fraudster!”&lt;/p&gt;
+
+&lt;p&gt;It’s, well, an occupational hazard that we accept, carry our laptops and trudge on.&lt;/p&gt;
+
+&lt;p&gt;But i am compensated, when i commute around the &lt;a href=&quot;http://en.wikipedia.org/wiki/Lagos&quot;&gt;metropolis&lt;/a&gt; and beyond, to find the love that  users, both young and old, have for their mobile devices. Phones (Smart and otherwise), Palmtops, iPads, etc. A wise college girl once said “If you have your head raised high while all others are bowed, you should get a BB!” LOL! I’ll like to extend that saying, ”… get a smartphone”!&lt;/p&gt;
+
+&lt;p&gt;Heads bowed, attention riveted to the glowing screens, fingers tapping out messages, people all over go about their daily businesses  dragging away their attentions when absolutely necessary and only for the briefest of times. Its a culture a fellow IT chap aptly named  &lt;strong&gt;‘the Ratmode’&lt;/strong&gt;. I agree the posture reminds one of a rat at work on a nut.&lt;/p&gt;
+
+&lt;p&gt;A GPRS enabled phone and a few bytes of data (as little as 10MB for about $0.67) and all troubles and sorrows melt away as users dive into the depths of online infotainment and communication Ratmode style. Social network sites are the first ports of call: Facebook, Twitter, Mixit, 2go, Nimbuzz, Badoo, etc. And I mean &lt;em&gt;etc!&lt;/em&gt;Aha! lest I forget the classiest one in these parts, BBM. (I said it, so BB lovers, am on your side.) Aside the Social network sites, there are a million other mobile sites for stuff like music, movies, games, wallpapers, pictures, the works. Our loyal IM applications are never far away too.&lt;/p&gt;
+
+&lt;p&gt;It gladdens my heart, that with rat sized bytes, smartphones and applications, the www in a nut in the hands of the user. Africa has been split wide open to the ratmode culture, the internet penetration is largely experienced on the mobile.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.timbaobjects.com/blog/2011/06/rat-bytes/mobil-subscriptions-africa-by-country-500x263/&quot;&gt;&lt;img src=&quot;http://www.timbaobjects.com/wp-content/uploads/2011/06/mobil-subscriptions-africa-by-country-500x263-e1309345999978.png&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.timbaobjects.com/blog/2011/06/rat-bytes/internet-growth-country-africa-500x258/&quot;&gt;&lt;img src=&quot;http://www.timbaobjects.com/wp-content/uploads/2011/06/internet-growth-country-africa-500x258-e1309346260433.png&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The charts above reveal a fascinating trend and I can assure you that those figures are advancing daily in bounds.&lt;/p&gt;
+
+&lt;p&gt;Africa is going mobile! Nigeria is going mobile! Developers come up with fresh ideas and products to keep users interested and happy daily. Mobile Web? Bring it on. Mobile App? Let’s tango. Obviously, if you are not mobile, you are nowhere. Simple!&lt;/p&gt;
+
+&lt;p&gt;We IT folks are still easy to spot, from a few minutes to a few days observing us, it becomes obvious. Yesterday, a total stranger in a full commuter bus asks me to please help him upload a profile picture from his mobile device to his favorite social network platform! Damn! Spotted again.&lt;/p&gt;
+
+&lt;p&gt;From my desk on a rainy morning,&lt;/p&gt;
+
+&lt;p&gt;Greg.&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>On Agile Development</title>
+      <link>http://timbaobjects.com/general/2011/06/29/on-agile-development/</link>
+      <pubDate>Wed, 29 Jun 2011 00:00:00 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/general/2011/06/29/on-agile-development</guid>
+      <description>&lt;p&gt;Back in the days, the &lt;a href=&quot;http://en.wikipedia.org/wiki/Waterfall_model&quot;&gt;waterfall model&lt;/a&gt; of software development was the de facto standard, however, the times have changed. Now there are numerous methods and approaches to software development and in some cases, minor dialects of the same development process. At TimbaObjects, we use an &lt;a href=&quot;http://en.wikipedia.org/wiki/Agile_software_development&quot;&gt;Agile development&lt;/a&gt; process that’s somewhat custom and so not as specific as methods like &lt;a href=&quot;http://en.wikipedia.org/wiki/Scrum_(development&quot;&gt;Scrum&lt;/a&gt;), &lt;a href=&quot;http://en.wikipedia.org/wiki/Extreme_Programming&quot;&gt;XP&lt;/a&gt; or &lt;a href=&quot;http://en.wikipedia.org/wiki/Agile_Unified_Process&quot;&gt;AUP&lt;/a&gt;. We use tools like &lt;a href=&quot;http://www.pivotaltracker.com/&quot;&gt;Pivotal Tracker&lt;/a&gt; that helps us track and respond to issues as quickly as possible.&lt;/p&gt;
+
+&lt;p&gt;Here’s our typical process:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;We sit with the client to collect requirements. This might be a new feature, a bug or modification on a certain feature.&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li&gt;
+&lt;p&gt;We create tickets on our tracking system to reflect these features or needed bug fixes&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li&gt;
+&lt;p&gt;We work on these features and fix bugs and&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li&gt;
+&lt;p&gt;We meet with the client again for feedback&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We continue this cycle until the project is completed. Pretty simple right? Well not exactly; if you’ve been accustomed to using the waterfall process, this is really going to move you out of your comfort zone. In our experience, no software project is particularly complete until the software itself or project expires. What more? Very few clients know what they &lt;em&gt;really&lt;/em&gt; want from the start of the project. As the software project becomes a reality, there will be modifications in the requirements - some big, some small. Without an iterative process, this becomes a nightmare for both client and developer.&lt;/p&gt;
+
+&lt;p&gt;In our most &lt;a href=&quot;http://www.timbaobjects.com/blog/portfolio/project-2011-swiftcount/&quot;&gt;recently concluded project&lt;/a&gt;, we used the Agile development process to really speed up turn around time for software delivery. In hindsight, we probably couldn’t have successfully executed this project without going Agile.&lt;/p&gt;</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Hello world!</title>
+      <link>http://timbaobjects.com/2011/05/28/hello-world/</link>
+      <pubDate>Sat, 28 May 2011 00:00:00 +0000</pubDate>
+      <author></author>
+      <guid>http://timbaobjects.com/2011/05/28/hello-world</guid>
+      <description>&lt;p&gt;Welcome to our newly revamped website. For some odd number of years, we’ve had what our friends call, a “banner” website and we’ve finally heeded their advice to run a proper website for the company. So here’s the fulfillment of that promise. Now let’s have some fun!&lt;/p&gt;</description>
+    </item>
+    
+    
+
+  </channel> 
+</rss>
