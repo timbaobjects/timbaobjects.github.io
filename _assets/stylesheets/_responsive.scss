@@ -166,3 +166,127 @@
 
     }
 }
+@media (max-width: 640px) {
+    
+    article {
+        padding-top:20px;
+        
+        .container > header, .container > section, .container > footer {
+            padding:0;
+            margin:1em 10%;
+        }
+        
+        .container > footer {
+            padding:1.67em 0;
+        }
+        
+        .full, pre {
+            margin:1em 0;
+        }
+        
+        pre {
+            padding:1em;
+        }
+        
+        blockquote {
+            margin:1em 0;
+            
+            p {
+                font-size:1em;
+            }
+        }
+        
+        h1 {
+            font-size:1.8em;
+        }
+        
+        h2 {
+            font-size:1.4em;
+        }
+        
+        p {
+            font-size:0.9em;
+        }
+    }
+    
+    .blog-cover {
+        height:320px;
+        margin-bottom:1.67em;
+
+        img {
+            height:320px;
+            width:auto;
+        }
+        
+        section {
+            padding:40px 0 0;
+            text-align:center;
+            margin-bottom:.67em;
+            
+            a {
+                margin:0.35em;
+            }
+        }
+        h1 {
+            font-size:1.5em;
+        }
+        
+        h3 {
+            font-size:1em;
+        }
+    }
+    
+    .site-nav .tagline span {
+        display:none;
+    }
+    
+    .site-nav {
+        #navigation {
+            a {
+            margin:0 0.25em;
+            font-size: 10px;
+            }
+            
+            .brand {
+                display:inline-block;
+            } 
+        }
+    }
+    
+    .site-footer {
+        margin-top:0;
+        padding:1.67em 10%;
+        text-align:center;
+        
+        nav {
+            display:block;
+            float:none !important;
+            padding:1em;
+        }
+    }
+    
+    .index {
+        padding:0;
+        margin:0 10%;
+        
+        > div {
+            margin:0;
+        }
+        
+        img {
+            display:none;
+        }
+    }
+    .btn-outline {
+    background: none;
+    border-radius: 4px;
+    font-size: 0.4em;
+    border:1px solid $accent;
+    border-radius: 3px;
+    color:darken($accent, 5%);
+    transition:none;
+    font-weight:normal;
+    margin-top:1em;
+
+    }
+}

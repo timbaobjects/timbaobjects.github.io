@@ -237,20 +237,5 @@ $(".full img").on("click", function() {
 $(function(){
 $('.do').css('filter', 'alpha(opacity=40)');
 $('.do').addClass('animated fadeInUp');
-$('.do-pulse').addClass('animated pulse');
-$(window).scroll(function(){
-
-  var scroll = $(window).scrollTop();
-
-  if (scroll > 80 ) {
-    $('.site-nav').addClass('.scrolled');
-  }
-
-  if (scroll <= 80 ) {
-    $('.site-nav').removeClass('.scrolled');
- }
-
-});
-
 });
 
