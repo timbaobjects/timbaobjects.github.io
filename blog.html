@@ -12,7 +12,6 @@
     {% stylesheet main %}
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="/images/{{ site.to.logo }}"/>
-    <link href="{{ site_url }}/feed.xml" rel="alternate" type="application/rss+xml" title="{{ site.to.title }}" />
     <meta name="title" content="{% if page.title %}{{ page.title }} {% else %}{{ site.to.title }}{% endif %}">
     <link rel="canonical" href="{{ site.url }}{{ page.url }}">
     {% if page.site.gplus %}<link rel="publisher" href="https://plus.google.com/{{ site.to.gplus }}">{% endif %} 
@@ -21,9 +20,6 @@
     <meta property="og:url" content="{{ site.url }}{{ page.url }}"/>
     {% if page.cover_image %}
     <meta property="og:image" content="{{ site.url }}/images/{{ page.cover_image }}"/>
-    {% if page.main_image %}
-    <meta property="og:image" content="{{ site.url }}/images/{{ page.main_image }}"/>  
-    {% endif %}
     <meta property="og:image" content="{{ site.url }}/images/{{ site.to.logo }}"/>   
     {% endif %}
     {% if page.excerpt %}
@@ -45,7 +41,7 @@
             {% if site.to.about_link %}<a href="{{ site.to.about_link }}">About</a>{% endif %}
             {% if site.to.portfolio_link %}<a href="{{ site.to.portfolio_link }}">Portfolio</a>{% endif %}
         </nav>
-        {% if site.to.tagline or site.to.product_url %}<nav class="tagline">
+        {% if site.to.tagline %}<nav class="tagline">
             {% if site.to.tagline %}<span>{{ site.to.tagline }}</span>{% endif %}
             {% if site.to.contact_link %}<a href="{{ site.to.contact_link }}" class="btn btn-outline">Get In Touch</a>{% endif %}
         </nav>{% endif %}

@@ -16,9 +16,6 @@
     <meta property="og:url" content="{{ site.url }}{{ page.url }}"/>
     {% if page.cover_image %}
     <meta property="og:image" content="{{ site.url }}/images/{{ page.cover_image }}"/>
-    {% if page.main_image %}
-    <meta property="og:image" content="{{ site.url }}/images/{{ page.main_image }}"/>  
-    {% endif %}
     <meta property="og:image" content="{{ site.url }}/images/{{ site.to.logo }}"/>   
     {% endif %}
     {% if page.excerpt %}
@@ -40,7 +37,7 @@
             {% if site.to.about_link %}<a href="{{ site.to.about_link }}">About</a>{% endif %}
             {% if site.to.portfolio_link %}<a href="{{ site.to.portfolio_link }}">Portfolio</a>{% endif %}
         </nav>
-        {% if site.to.tagline or site.to.product_url %}<nav class="tagline">
+        {% if site.to.tagline %}<nav class="tagline">
             {% if site.to.tagline %}<span>{{ site.to.tagline }}</span>{% endif %}
             {% if site.to.contact_link %}<a href="{{ site.to.contact_link }}" class="btn btn-outline">Get In Touch</a>{% endif %}
         </nav>{% endif %}
