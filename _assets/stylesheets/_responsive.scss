@@ -49,7 +49,7 @@
         
         .container > header, .container > section, .container > footer {
             padding:0;
-            margin:1.5em 10%;
+            margin:.75em 10%;
         }
         
         .container > footer {
@@ -95,7 +95,7 @@
         }
         
         section {
-            padding:60px 0 0;
+            padding:30px 0 0;
             text-align:center;
             margin-bottom:1em;
             
@@ -120,7 +120,7 @@
         #navigation {
             a {
             margin:0 0.25em;
-            font-size: 10px;
+            font-size: 14px;
             }
             
             .brand {
@@ -131,7 +131,7 @@
     
     .site-footer {
         margin-top:0;
-        padding:2em 10%;
+        padding:1em 10%;
         text-align:center;
         
         nav {
@@ -155,5 +155,6 @@
     }
     .btn-outline {
     display:none;
+
     }
 }
