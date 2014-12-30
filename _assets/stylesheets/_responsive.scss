@@ -49,7 +49,7 @@
         
         .container > header, .container > section, .container > footer {
             padding:0;
-            margin:.75em 10%;
+            margin:1.5em 10%;
         }
         
         .container > footer {
@@ -95,7 +95,7 @@
         }
         
         section {
-            padding:30px 0 0;
+            padding:60px 0 0;
             text-align:center;
             margin-bottom:1em;
             
@@ -112,7 +112,7 @@
         }
     }
     
-    .site-nav .tagline span {
+    .site-nav .tagline span, .site-nav .tagline .btn-outline {
         display:none;
     }
     
@@ -131,7 +131,7 @@
     
     .site-footer {
         margin-top:0;
-        padding:1em 10%;
+        padding:2em 10%;
         text-align:center;
         
         nav {
@@ -154,7 +154,13 @@
         }
     }
     .btn-outline {
-    display:none;
+    background: none;
+    font-size: 0.4em;
+    border:1px solid $accent;
+    border-radius: 3px;
+    color:darken($accent, 5%);
+    transition:none;
+    font-weight:normal;
 
     }
 }
