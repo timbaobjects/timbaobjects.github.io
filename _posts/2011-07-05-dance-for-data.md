@@ -27,10 +27,11 @@ The Telcos got their licenses in 2001 at a cost of about N31.9billon each. Add t
 
 But it's still a wonder that Indonesians pay about $7 for BIS monthly and we pay about $20. Data is still very expensive here and most folks I know with Maemos, Androids and iOSs dare not let their mobiles loose in the byte store. It's a quick way to commit financial suicide. A few get data plans and these are still very expensive. A friend ran an N8000 data plan monthly on his Galaxy S. Sad much, I tell ya!
 
-
-
-[![](http://www.timbaobjects.com/wp-content/uploads/2011/07/gsmarena_002.jpg)](http://www.timbaobjects.com/?attachment_id=103)[![](http://www.timbaobjects.com/wp-content/uploads/2011/07/gsmarena_N900.jpg)](http://www.timbaobjects.com/?attachment_id=104)
-
+<br>
+<figure>
+	<img src="/posts-images/2011/07/gsmarena_002.jpg" align="alignnone"><img src="/posts-images/2011/07/gsmarena_N900.jpg" align="alignnone">
+</figure>
+<br>
 
 
 To whom shall we go for data on our smartphones? We have to dumb them down to make them affordable. switch off most Apps, increase the time lags between retrievals and other such barbaric stunts. I recall when I got my first smartphone (Bless it's soul *wipes a tear*), anytime folks were checking it out, I had to stand guard. Not because of privacy concerns but because, one innocent click on an App or widget and zzzaaaaaaap! my balance would read something thing like N0.09 in few seconds. Happened a few times.

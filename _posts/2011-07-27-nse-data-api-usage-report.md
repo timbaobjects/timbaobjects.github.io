@@ -51,7 +51,7 @@ It's been two weeks since we launched our Nigerian Stock Exchange data API. We d
 </table>
 
 <figure>
-	<img src="http://www.timbaobjects.com/wp-content/uploads/2011/07/bar.png" align="alignnone" width="240">
+	<img src="/posts-images/2011/07/bar.png" align="alignnone" width="240">
 	<figcaption style="font-size:11px; padding-bottom:2em; margin-left:2.8em;">Breakdown of HTTP Request Types</figcaption>
 </figure>
 
@@ -105,7 +105,7 @@ Of the **23 API tokens** that have been provisioned, we have a **65% usage** on 
 </tr>
 </table>
 <figure>
-	<img src="http://www.timbaobjects.com/wp-content/uploads/2011/07/dot.png" align="alignnone" width="257">
+	<img src="/posts-images/2011/07/dot.png" align="alignnone" width="257">
 	<figcaption style="font-size:11px; padding-bottom:2em; margin-left:12em">Requests Vs API Users</figcaption>
 </figure>
 
