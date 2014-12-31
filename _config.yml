@@ -75,7 +75,7 @@ highlighter:    pygments
 
 relative_permalinks: true
 
-permalink:     /blog/:year/:month/:day/:title
+permalink:     pretty
 paginate_path: 'page:num'
 paginate: 4
 
