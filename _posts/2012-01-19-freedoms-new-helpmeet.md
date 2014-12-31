@@ -1,6 +1,6 @@
 ---
 layout: post
-
+permalink: /blog/2012/01/freedoms-new-helpmeet/
 title: Freedom's new helpmeet
 date: 2012-01-19 18:20:01+00:00
 excerpt: "Freedom has wooed and won the Internet's heart and she has brought along her smart kids: Social Networks. They do love their new daddy..."

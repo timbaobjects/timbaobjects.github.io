@@ -1,6 +1,6 @@
 ---
 layout: post
-
+permalink: /blog/2012/02/faster-data-input-using-form-navigation/
 title: Faster Data Input using Form Navigation
 date: 2012-02-25 20:30:32+00:00
 excerpt: "In order to help, we worked on a jQuery snippet that allows the use of keys on the keyboard to navigate from one field to the next..."

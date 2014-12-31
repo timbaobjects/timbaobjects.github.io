@@ -1,6 +1,6 @@
 ---
 layout: post
-
+permalink: /blog/2011/05/hello-world/
 title: Hello world!
 excerpt: "Welcome to our newly revamped website. For some odd number of years, we've had what our friends call..."
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-
+permalink: /blog/2012/01/changing-the-future/
 title: Changing the future
 date: 2012-01-20 09:41:33+00:00
 excerpt: "You've probably seen a movie or two about someone having the power to predict the future or in some cases see into the future. It's all too likely that..."

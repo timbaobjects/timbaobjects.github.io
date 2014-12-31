@@ -1,6 +1,6 @@
 ---
 layout: post
-
+permalink: /blog/2011/07/nse-data-api-usage-report/
 title: NSE Data API usage report
 date: 2011-07-27 08:59:27+00:00
 excerpt: "It's been two weeks since we launched our Nigerian Stock Exchange data API. We decided to do some analytics on the API usage yesterday and to our..."

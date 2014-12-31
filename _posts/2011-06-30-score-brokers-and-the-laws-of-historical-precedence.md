@@ -1,6 +1,6 @@
 ---
 layout: post
-
+permalink: /blog/2011/06/score-brokers-and-the-laws-of-historical-precedence/
 title: Score Brokers and the Laws of Historical Precedence
 date: 2011-06-30 15:31:18+00:00
 excerpt: "'Where were you in 2008 when we flogged this same team 1-0 in the semi-finals?' Kunle yelled. I was on his side in this argument, but he was going into..."

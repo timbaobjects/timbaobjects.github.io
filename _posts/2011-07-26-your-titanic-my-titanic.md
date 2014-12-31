@@ -1,6 +1,6 @@
 ---
 layout: post
-
+permalink: /blog/2011/07/your-titanic-my-titanic/
 title: Your Titanic, My Titanic
 date: 2011-07-26 11:03:03+00:00
 excerpt: "Am sure we've all seen the movie 'Titanic'. And in the event you've been living in a crevice somewhere in the Himalayas, it a re-enactment of the fateful..."

@@ -1,5 +1,6 @@
 ---
 layout: post
+permalink: /blog/2011/07/private-beta-announcement-of-nse-data-service/
 title: Private beta announcement of NSE data service
 excerpt: "For well over a year now, we've been testing an API we developed at TimbaObjects for providing data on trades at the Nigerian Stock Exchange..."
 

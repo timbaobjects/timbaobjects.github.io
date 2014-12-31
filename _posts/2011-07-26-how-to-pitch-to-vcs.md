@@ -1,6 +1,6 @@
 ---
 layout: post
-
+permalink: /blog/2011/07/how-to-pitch-to-vcs/
 title: How to pitch to VCs
 date: 2011-07-26 12:59:23+00:00
 excerpt: "There are numerous articles online on how to prepare for your pitch and so I'll recommend reading as much on this subject as possible..."

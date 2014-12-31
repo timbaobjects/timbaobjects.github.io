@@ -1,6 +1,6 @@
 ---
 layout: post
-
+permalink: /blog/2011/06/on-agile-development/
 title: On Agile Development
 slug: On Agile Development
 excerpt: "Back in the days, the waterfall model of software development was the de facto standard, however, the times have changed..."

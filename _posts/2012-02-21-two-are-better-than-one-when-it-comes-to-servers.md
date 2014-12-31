@@ -1,6 +1,6 @@
 ---
 layout: post
-
+permalink: /blog/2012/02/two-are-better-than-one-when-it-comes-to-servers/
 title: Two are better than one when it comes to servers
 date: 2012-02-21 18:41:49+00:00
 excerpt: "Two and probably more are better than one when it comes to deploying servers for a web application. When we deploy our applications, we generally like..."

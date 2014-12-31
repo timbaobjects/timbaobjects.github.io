@@ -1,6 +1,6 @@
 ---
 layout: post
-
+permalink: /blog/2011/07/dance-for-data/
 title: Dance for Data
 date: 2011-07-05 08:22:08+00:00
 excerpt: "I was to take a bike from the highway to the 'Mast'. I'd been told that my brother-in-law-to-be's apartment was in the block of flats directly across..."
