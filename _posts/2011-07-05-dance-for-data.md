@@ -29,7 +29,7 @@ But it's still a wonder that Indonesians pay about $7 for BIS monthly and we pay
 
 <br>
 <figure>
-	<img src="/posts-images/2011/07/gsmarena_002.jpg" align="alignnone"><img src="/posts-images/2011/07/gsmarena_N900.jpg" align="alignnone">
+	<img src="/media/2011/07/gsmarena_002.jpg" align="alignnone"><img src="/media/2011/07/gsmarena_N900.jpg" align="alignnone">
 </figure>
 <br>
 

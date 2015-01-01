@@ -18,7 +18,7 @@ categories:
 ---
 
 <figure style="float:left;">
-	<img src="/posts-images/2011/07/DSC00719-250x187.jpg" align="left" width="250" style="margin-right:1em;">
+	<img src="/media/2011/07/DSC00719-250x187.jpg" align="left" width="250" style="margin-right:1em;">
 	<figcaption style="font-size:11px; padding-bottom:1em;">Delegates at the Pitch Monday Event</figcaption>
 </figure>
 

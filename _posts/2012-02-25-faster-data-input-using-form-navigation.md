@@ -18,7 +18,7 @@ categories:
 ---
 
 <figure>
-	<img src="/posts-images/2012/02/psc_checklist_form-680x389.png" align="alignnone">
+	<img src="/media/2012/02/psc_checklist_form-680x389.png" align="alignnone">
 </figure>
 
 Data entry is at the heart of the operations at [Project SwiftCount](http://www.pscnigeria.org/). Our data clerks have to fill forms like the one in the screenshot above over and over again. In studying how they accomplish this task, we noticed a certain activity that takes a lot of time - leaving the keyboard to use the mouse.
