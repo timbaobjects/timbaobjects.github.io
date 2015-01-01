@@ -49,10 +49,10 @@
 <footer class="site-footer bordered">
     <div class="container">
         <nav>
-            <a href="{{ site.to.url }}">Home</a> &middot;
-            <a href="/">Blog</a> &middot;
-            {% if site.to.about_link %}<a href="{{ site.to.about_link }}">About</a>&middot; {% endif %}
-            {% if site.to.portfolio_link %}<a href="{{ site.to.product_link }}" class="dropdown-toggle">Portfolio</a>&middot; {% endif %}
+            <a href="/" class="home">Home</a> &middot;
+            {% if site.to.blog_link %}<a href="{{ site.to.blog_link }}">Blog</a>{% endif %} &middot;
+            {% if site.to.about_link %}<a href="{{ site.to.about_link }}">About</a> &middot; {% endif %}
+            {% if site.to.portfolio_link %}<a href="{{ site.to.portfolio_link }}">Portfolio</a> &middot; {% endif %}
             {% if site.to.contact_link %}<a href="{{ site.to.contact_link }}">Contact</a>{% endif %}
         </nav>
         
