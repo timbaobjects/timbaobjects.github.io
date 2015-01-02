@@ -1,4 +1,5 @@
 ## Installation
+You need to have the following installed on your machine.
 	1. Ruby
 	2. RubyGems
 	3. Nodejs or any other Javascript runtime for coffee script support.
