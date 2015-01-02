@@ -1,7 +1,7 @@
 ## Installation
-1. Ruby
-2. RubyGems
-3. Nodejs or any other Javascript runtime for coffee script support.
+	1. Ruby
+	2. RubyGems
+	3. Nodejs or any other Javascript runtime for coffee script support.
 
 _Note: Requires Ruby version 1.9.3 =>. For example use [rbenv](https://github.com/sstephenson/rbenv)_   
 
@@ -17,7 +17,7 @@ After forking, run the following commands:
 
 ## Running Locally
 Once built successfully, you'd have the site running locally.
-You can now:
+You can now
 	1. Create your post in markdown format.
 	2. Commit and do a push request to the repository.
 
