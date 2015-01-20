@@ -1,8 +1,10 @@
 ## Installation
 You need to have the following installed on your machine.
+```
 	1. Ruby
 	2. RubyGems
 	3. Nodejs or any other Javascript runtime for coffee script support.
+```
 
 _Note: Requires Ruby version 1.9.3 =>. For example use [rbenv](https://github.com/sstephenson/rbenv)_   
 
