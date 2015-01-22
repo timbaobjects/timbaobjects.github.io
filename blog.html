@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if page.title %}{{ page.title }} &mdash; {{ site.to.title }}{% else %}{{ site.to.title }} &mdash; {{ site.to.subtitle }}{% endif %}</title>
     {% if site.to.google_font %}<link href="https://fonts.googleapis.com/css?family={{ site.to.google_font }}" rel="stylesheet" type="text/css">{% endif %}
-    <link rel="stylesheet" type="text/css" href="/source/main.css">
+    {% stylesheet main %}
+    <!--<link rel="stylesheet" type="text/css" href="/source/main.css">-->
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="/images/{{ site.to.logo }}"/>
     <meta name="title" content="{% if page.title %}{{ page.title }} {% else %}{{ site.to.title }}{% endif %}">
